@@ -34,3 +34,25 @@ const Nav = () => {
 
 export default Nav;
 
+// <div className="Footer bg-element">
+// 			<div>
+// 				<button className="btn bg-transparent color-secondary">
+//           <span>🏠</span>Home<span></span>
+//         </button>
+// 			</div>
+// 			<div>
+// 				<button className="btn bg-transparent color-secondary">
+//           <span>🏠</span>Home<span></span>
+//         </button>
+// 			</div>
+// 			<div>
+// 				<button className="btn bg-transparent color-secondary">
+//           <span>🏠</span>Home<span></span>
+//         </button>
+// 			</div>
+// 			<div>
+// 				<button className="btn bg-transparent color-secondary">
+//           <span>🏠</span>Home<span></span>
+//         </button>
+// 			</div>
+// 		</div>

@@ -15,7 +15,7 @@ const Events = ({ navState }) => {
 	useEffect(() => {
 		if (!navState) navigate("/");
 		console.log(filter);
-	}, [filter]);
+	}, [filter, modalState]);
 
 	function handleFilter(event) {
 		console.log(event.target.className);
@@ -35,6 +35,7 @@ const Events = ({ navState }) => {
 
 	const getInfo = (id) => {
 		console.log(id);
+		setModalState(!modalState)
 	};
 
 	return (

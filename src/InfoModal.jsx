@@ -4,10 +4,11 @@ const InfoModal = ({ modalState, checkModalState }) => {
 	// data= type of event, description, RSPV status, location, time
 
 	console.log(modalState);
-
-	return (
+	if(modalState) return (
 		<div className="modalBG opac">
 			<div className="modalContainer">
+				<button className="closingButton" onClick={()=>checkModalState(false)}>Close</button>
+
 				<div className="modalElement">
 					<p>Event</p>
 					<p>Event Name</p>

@@ -86,7 +86,7 @@ body {
   -ms-border-radius: 40px 40px 0 0;
   -o-border-radius: 40px 40px 0 0;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   min-height: 85px;
   margin-top: 10px;
@@ -246,6 +246,7 @@ button>a {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  height: 100%;
 }
 
 .app .Landing:only-child {
@@ -494,16 +495,22 @@ form>div>* {
   }
 }
 
-.opac{
+.opac {
   animation: 1s opacityFade forwards;
   -webkit-animation: 1s opacityFade forwards;
 }
+
 @keyframes opacityFade {
-  0%{opacity: 0;}
-  100%{opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
-.modalBG{
+.modalBG {
   position: fixed;
   z-index: 3;
   inset: 0;
@@ -514,8 +521,10 @@ form>div>* {
   -ms-border-radius: 20px;
   -o-border-radius: 20px;
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
-.modalContainer{
+
+.modalContainer {
   z-index: 4;
   display: flex;
   flex-direction: column;
@@ -527,21 +536,91 @@ form>div>* {
   -moz-border-radius: 20px;
   -ms-border-radius: 20px;
   -o-border-radius: 20px;
+  position: relative;
 }
-.modalElement{
-  min-width: 280px;
+
+.modal2BG {
+  position: fixed;
+  z-index: 3;
+  inset: 0;
+  background-color: var(--bg-element);
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.modal2Container {
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+  position: relative;
+
+}
+
+.modal2Container>form {
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 0;
+  color: var(--text-color-primary);
+}
+
+.closingButton {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 4px 10px;
+  border: 2px solid transparent;
+  border-radius: 0 20px 0 20px;
+  color: var(--text-color-secondary);
+  background: var(--bg-element);
+  -webkit-border-radius: 0 20px 0 20px;
+  -moz-border-radius: 0 20px 0 20px;
+  -ms-border-radius: 0 20px 0 20px;
+  -o-border-radius: 0 20px 0 20px;
+}
+
+.closingButtonX {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 4px 10px;
+  border: 2px solid transparent;
+  border-radius: 0 20px 0 20px;
+  color: var(--text-color-secondary);
+  background: var(--bg);
+  -webkit-border-radius: 0 20px 0 20px;
+  -moz-border-radius: 0 20px 0 20px;
+  -ms-border-radius: 0 20px 0 20px;
+  -o-border-radius: 0 20px 0 20px;
+}
+
+.modalElement {
+  min-width: 240px;
   margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
+  padding: 4px;
 }
-.modalElement > p:first-of-type{
+
+.modalElement>p:first-of-type {
   font-size: large;
   font-weight: bold;
   text-align: center;
   text-decoration: underline;
 }
 
-.modalElement > button {
+.modalElement>button {
   padding: 1rem 3rem;
   margin: 0 auto;
 }
