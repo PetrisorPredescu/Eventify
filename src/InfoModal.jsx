@@ -3,7 +3,6 @@ import React from "react";
 const InfoModal = ({ modalState, checkModalState }) => {
 	// data= type of event, description, RSPV status, location, time
 
-	console.log(modalState);
 	if(modalState) return (
 		<div className="modalBG opac">
 			<div className="modalContainer">

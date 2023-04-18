@@ -24,8 +24,8 @@ const Landing = ({ nav }) => {
 
 	return (
 		<div className="Landing fadein">
-            <UserSignInModal userModal={userModal} setUserModal={setUserModal}/>
-            <UserSignUpModal userModal2={userModal2} setUserModal2={setUserModal2}/>
+            <UserSignInModal nav={nav} userModal={userModal} setUserModal={setUserModal}/>
+            <UserSignUpModal nav={nav} userModal2={userModal2} setUserModal2={setUserModal2}/>
 			<div>
 				<div>
 					<p>EVENTIFY</p>

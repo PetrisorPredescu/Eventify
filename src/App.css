@@ -61,7 +61,7 @@ body {
   width: 100vw;
   position: relative;
   background-color: var(--bg-element);
-  border: 10px solid var(--bg);
+  border: 10px solid transparent;
   border-radius: 40px;
   -webkit-border-radius: 40px;
   -moz-border-radius: 40px;

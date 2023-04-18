@@ -1,14 +1,19 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const UserSignUpModal = ({ userModal2, setUserModal2 }) => {
+const UserSignUpModal = ({ userModal2, setUserModal2,nav }) => {
+	const navigate = useNavigate();
+
 	const handleSubmit = (e) => {
-		console.log(e);
-	};
-
-    const handleSignUp = (e) => {
         e.preventDefault()
-        console.log("Sign up processing...");
-    }
+
+		
+		//if successfull sign up
+		console.log("Sign Up Successfull. Redirecting..");
+		setUserModal2(false)
+		nav(true);
+		navigate("/Events");
+	};
     
 
 	if (userModal2)
@@ -62,7 +67,7 @@ const UserSignUpModal = ({ userModal2, setUserModal2 }) => {
 							required
 						/>
 
-						<button className="btn btn-primary" style={{ marginTop: "2rem" }} onClick={handleSignUp}>
+						<button className="btn btn-primary" style={{ marginTop: "2rem" }}>
 							Sign Up
 						</button>
 					</form>

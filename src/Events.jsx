@@ -14,11 +14,10 @@ const Events = ({ navState }) => {
 
 	useEffect(() => {
 		if (!navState) navigate("/");
-		console.log(filter);
+		console.log("Active filters: ", filter.type, filter.category);
 	}, [filter, modalState]);
 
 	function handleFilter(event) {
-		console.log(event.target.className);
 
 		if (event.target.className.startsWith("type")) {
 			setfilter((prevFilters) => ({
