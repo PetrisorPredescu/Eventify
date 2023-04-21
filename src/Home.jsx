@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import "./App.css";
 import IconCalendar from './IconCalendar.jsx'
 
-const Home = ({ navState }) => {
+const Home = ({ nav }) => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (!navState) navigate("/");
+		if (!nav) navigate("/");
 	}, []);
 
 	return (
@@ -18,7 +18,7 @@ const Home = ({ navState }) => {
 
       <div className="underHero opac">
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, accusamus.</p>
-        <img src="./src/assets/landing2.jpg" alt="" className="fadein" />
+        <img src="./assets/landing2.jpg" alt="" className="fadein" />
       </div>
 
 
@@ -30,7 +30,7 @@ const Home = ({ navState }) => {
       
       <div className="underHero opac">
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, accusamus.</p>
-        <img src="./src/assets/landing2.jpg" alt="" className="fadein"/>
+        <img src="./assets/landing2.jpg" alt="" className="fadein"/>
       </div>
 
 		</div>

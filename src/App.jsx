@@ -1,6 +1,4 @@
-import React , { useState, useEffect } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 
@@ -11,24 +9,40 @@ import Landing from "./Landing.jsx";
 import Events from "./Events.jsx";
 import Contact from "./Contact.jsx";
 import Profile from "./Profile.jsx";
+import Logout from "./Logout.jsx";
+
+import { auth, db, logout } from "./Firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { query, collection, getDocs, where } from "firebase/firestore";
 
 function App() {
 	const [navState, setNavState] = useState(false);
 
+	const [user, loading, error] = useAuthState(auth);
+
+	useEffect(() => {
+		if (loading) return;
+		if (user) {
+			setNavState(true);
+		}
+	}, [user, loading, error]);
+
 	return (
 		<div className="app">
 			<BrowserRouter>
-				{navState && <Nav />}
+				<Nav nav={navState} />
 
 				<Routes>
-					<Route path="/" element={<Landing nav={setNavState} />} />
-					<Route path="/Home" element={<Home navState={navState}/>} />
-					<Route path="/Events" element={<Events navState={navState}/>} />
-					<Route path="/Contact" element={<Contact navState={navState}/>} />
-					<Route path="/Profile" element={<Profile navState={navState}/>} />
+					<Route path="/" element={<Landing nav={navState} />} />
+					<Route path="/Home" element={<Home nav={navState} />} />
+					<Route path="/Events" element={<Events nav={navState} />} />
+					<Route path="/Contact" element={<Contact nav={navState} />} />
+					<Route path="/Profile" element={<Profile nav={navState} />} />
+					<Route path="/logout" element={<Logout nav={navState} />} />
+					<Route path="*" element={<Landing nav={navState} />} />
 				</Routes>
 
-				{navState && <Footer nav={setNavState} />}
+				<Footer nav={navState} setNav={setNavState} />
 			</BrowserRouter>
 		</div>
 	);

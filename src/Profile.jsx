@@ -1,10 +1,17 @@
-import React from "react";
+import React, {useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 
-const Profile = () => {
+const Profile = ({ nav }) => {
+	const navigate = useNavigate();
+
 	const handleSubmit = (e) => {
 		e.preventDefault()
 		console.log("handleSubmit");
 	};
+
+	useEffect(() => {
+		if (!nav) navigate("/");
+	}, []);
 
 	return (
 		<div className="fadein">

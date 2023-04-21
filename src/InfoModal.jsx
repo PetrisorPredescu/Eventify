@@ -1,31 +1,49 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import {
+	checkIfUserHasRSPVed,
+	removeUserFromEvent,
+	addUserFromEvent,
+} from "./Firebase.jsx";
+import ReactDOM from "react-dom";
 
-const InfoModal = ({ modalState, checkModalState }) => {
-	// data= type of event, description, RSPV status, location, time
+const InfoModal = ({ modalState, setModalState, data, user }) => {
+	if (!modalState) return;
 
-	if(modalState) return (
-		<div className="modalBG opac">
-			<div className="modalContainer">
-				<button className="closingButton" onClick={()=>checkModalState(false)}>Close</button>
+	const borderColor =
+		data.type == "Online"
+			? "--event1"
+			: data.type == "Outdoor"
+			? "--event2"
+			: "--event3";
 
-				<div className="modalElement">
-					<p>Event</p>
-					<p>Event Name</p>
-					<p>Event Location</p>
-					<p>Event Time</p>
-				</div>
+	if (modalState)
+		return (
+			<div className="modalBG opac">
+				<div className="modalContainer">
+					<button
+						className="closingButton"
+						onClick={() => setModalState(false)}>
+						Close
+					</button>
 
-				<div className="modalElement">
-					<p>About</p>
-					<p>Lorem ipsum dolor sit.</p>
-				</div>
-
-				<div className="modalElement">
-					<button className="btn btn-Eprimary">RSPV</button>
+					<p style={{ fontSize: "larger", fontWeight: "bold" }}>{data.name}</p>
+					<p>{new Date(data.date.seconds * 1000).toLocaleString()}</p>
+					<div className="tags" style={{ display: "flex", gap: "10px" }}>
+						<p
+							style={{
+								backgroundColor: `var(${borderColor})`,
+								borderRadius: "20px",
+								padding: "4px",
+								color: "black",
+							}}>
+							{data.type}
+						</p>
+					</div>
+					
+					<p>{data.description}</p>
 				</div>
 			</div>
-		</div>
-	);
+		);
 };
 
 export default InfoModal;

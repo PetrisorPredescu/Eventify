@@ -1,16 +1,55 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { db } from "./Firebase";
+import {  collection, getDocs, setDoc, doc } from "firebase/firestore";
 
-const Contact = ({ navState }) => {
+const Contact = ({ nav }) => {
 	const navigate = useNavigate();
+	const [err, setErr] = useState("")
 
 	useEffect(() => {
-		if (!navState) navigate("/");
+		if (!nav) navigate("/");
 	}, []);
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async(e) => {
 		e.preventDefault()
-		console.log("handleSubmit");
+		setErr("")
+		let regexEmail =
+			/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
+		if (!e.target[0].value) {
+			return setErr("Name required.")
+		} else if (e.target[0].value.length < 3) {
+			return setErr("Name too short.")
+		}
+		if (!e.target[1].value) {
+			return setErr("Email required.")
+		} else if (!regexEmail.test(e.target[1].value)) {
+			return setErr("Email invalid.")
+		}
+		if (!e.target[2].value) {
+			return setErr("Message required.")
+		} else if (e.target[2].value < 3) {
+			return setErr("Message too short.")
+		}
+
+		if(err == "")
+		console.log("Sending message...");
+		try {
+			const userRef = collection(db, "messages");
+			await setDoc(doc(userRef), {
+				uid: crypto.randomUUID(),
+				name: e.target[0].value,
+				email: e.target[1].value,
+				message: e.target[2].value,
+				date: new Date()
+			})
+			console.log("Message sent!");
+			setErr("Message sent!")
+		} catch (error) {
+			console.log(error);
+			setErr(error.message)
+		}
 	};
 
 	return (
@@ -48,6 +87,8 @@ const Contact = ({ navState }) => {
 						required
 						type="text"
 					></textarea>
+
+					{err.length > 0 && <p>{err}</p>}
 
 					<button className="btn btn-primary" style={{marginTop:"2rem"}}>Send</button>
 				</div>

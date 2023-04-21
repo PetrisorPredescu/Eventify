@@ -1,47 +1,123 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {
+	auth,
+	db,
+	logout,
+	logInWithEmailAndPassword,
+	signInWithGoogle,
+	signInWithPopup,
+} from "./Firebase.jsx";
 import { useNavigate } from "react-router-dom";
 import "./App.css";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { query, collection, getDocs, where } from "firebase/firestore";
 
-import UserSignInModal from './UserSignInModal.jsx'
-import UserSignUpModal from './UserSignUpModal.jsx'
+import UserSignInModal from "./UserSignInModal.jsx";
+import UserSignUpModal from "./UserSignUpModal.jsx";
+import UserForgotPasswordModal from "./UserForgotPasswordModal.jsx";
+
 
 const Landing = ({ nav }) => {
 	const navigate = useNavigate();
-    const [userModal, setUserModal] = useState(false)
-    const [userModal2, setUserModal2] = useState(false)
-    const [userSignIn, setSignIn] = useState("Sign In")
+	const [userModal, setUserModal] = useState(false);
+	const [userModal2, setUserModal2] = useState(false);
+	const [userModal3, setUserModal3] = useState(false);
+	const [userSignIn, setSignIn] = useState("Sign In");
+    const [user, loading, error] = useAuthState(auth);
 
+	useEffect(() => {
+		if (loading) return;
+		if (user) {
+			navigate('/Events')
+		}
+	}, [user, loading, error]);
 
-	const handleLogin = () => {
-		nav(true);
-		navigate("/Events");
+	const handleModal = (e) => {
+		if (e.target.innerText == "Sign In") {
+			setUserModal(!userModal); // login
+		} else if(e.target.innerText == "Sign Up") {
+			setUserModal2(!userModal2); // register
+		} else {
+			setUserModal3(!userModal3); // forgot pass
+		}
 	};
 
-    const handleModal = (e) => {
-        if(e.target.innerText == "Sign In") {setUserModal(!userModal)} else {setUserModal2(!userModal)}
-        
-    }
+	const handleLogin = async (method) => {
+		switch (method) {
+			case "logInWithEmailAndPassword":
+				try {
+					await logInWithEmailAndPassword(email, password);
+					setErrors("");
+				} catch (error) {
+					switch (error.message) {
+						case "Firebase: Error (auth/user-not-found).":
+							setErrors("User is not found.");
+							break;
 
+						case "Firebase: Error (auth/wrong-password).":
+							setErrors("Password is incorrect.");
+							break;
+
+						case "Firebase: Error (auth/internal-error).":
+							setErrors("Login fields are not valid.");
+							break;
+
+						case "Firebase: Error (auth/invalid-email).":
+							setErrors("Login fields are not valid.");
+							break;
+
+						default:
+							break;
+					}
+				}
+				break;
+
+			case "signInWithGoogle":
+				console.log("Opening google login popup.");
+				await signInWithGoogle();
+				break;
+
+			default:
+				break;
+		}
+	};
+	
 	return (
 		<div className="Landing fadein">
-            <UserSignInModal nav={nav} userModal={userModal} setUserModal={setUserModal}/>
-            <UserSignUpModal nav={nav} userModal2={userModal2} setUserModal2={setUserModal2}/>
+			<UserSignInModal
+				nav={nav}
+				userModal={userModal}
+				setUserModal={setUserModal}
+			/>
+			<UserSignUpModal
+				nav={nav}
+				userModal2={userModal2}
+				setUserModal2={setUserModal2}
+			/>
+			<UserForgotPasswordModal
+				nav={nav}
+				userModal3={userModal3}
+				setUserModal3={setUserModal3}
+			/>
 			<div>
 				<div>
 					<p>EVENTIFY</p>
 					<p>Are you ready to join in?</p>
 				</div>
 
-				<img src="./src/assets/Landing.JPG" alt="" />
+				<img src="./assets/Landing.JPG" alt="" />
 
 				<div>
 					<button className="btn btn-primary bg-primary" onClick={handleModal}>
 						Sign In
 					</button>
 
-					<button className="btn btn-secondary" onClick={handleModal}>Sign Up</button>
+					<button className="btn btn-secondary" onClick={handleModal}>
+						Sign Up
+					</button>
 
 					<svg
+						onClick={() => handleLogin("signInWithGoogle")}
 						style={{ margin: "auto", cursor: "pointer" }}
 						width="64px"
 						height="64px"
@@ -69,6 +145,11 @@ const Landing = ({ nav }) => {
 								fill="#EB4335"></path>{" "}
 						</g>
 					</svg>
+
+					
+					<button className="btn btn-secondary" onClick={handleModal}>
+						Forgot Password
+					</button>
 				</div>
 			</div>
 		</div>

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import "./App.css";
 
-const Nav = () => {
+const Nav = ({ nav }) => {
 	return (
-		<div className="Header bg-element">
+		<>
+		{nav && <div className="Header bg-element">
 			<div>
 				<button className="btn bg-transparent color-secondary">
 					<NavLink to="/Home" activeclassname={"active"}>
@@ -28,7 +29,8 @@ const Nav = () => {
 					</NavLink>
 				</button>
 			</div>
-		</div>
+		</div> }
+		</>
 	);
 };
 

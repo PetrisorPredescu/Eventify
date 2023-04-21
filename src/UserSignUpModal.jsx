@@ -1,20 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { registerWithEmailAndPassword } from "./Firebase";
 
-const UserSignUpModal = ({ userModal2, setUserModal2,nav }) => {
+const UserSignUpModal = ({ userModal2, setUserModal2, nav }) => {
 	const navigate = useNavigate();
 
-	const handleSubmit = (e) => {
-        e.preventDefault()
+	const [errors, setErrors] = useState("");
+	const [values, setValues] = useState({
+		name: "",
+		email: "",
+		password: "",
+	});
 
-		
+	const handleChange = (event) => {
+		setValues({
+			...values,
+			[event.target.name]: event.target.value,
+		});
+	};
+
+	const handleSubmit = async(e) => {
+		e.preventDefault();
+		setErrors("")
+
+		let regexEmail =
+			/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+		if (!values.name) {
+			return setErrors("Name required.")
+		} else if (values.name.length < 3) {
+			return setErrors("Name too short.")
+		}
+		if (!values.email) {
+			return setErrors("Email required.")
+		} else if (!regexEmail.test(values.email)) {
+			return setErrors("Email invalid.")
+		}
+		if (!values.password) {
+			return setErrors("Password required.")
+		} else if (values.password.length < 3) {
+			return setErrors("Password too short.")
+		}
+		if (values.password !== e.target[3].value) {
+			return setErrors("Passwords do not match.")
+		} 
+
+
+		const regMe = await registerWithEmailAndPassword(values.name, values.email, values.password);
+		if (regMe != "Success") setErrors(regMe);
 		//if successfull sign up
 		console.log("Sign Up Successfull. Redirecting..");
-		setUserModal2(false)
-		nav(true);
+		setUserModal2(false);
 		navigate("/Events");
 	};
-    
+
+
 
 	if (userModal2)
 		return (
@@ -36,6 +75,8 @@ const UserSignUpModal = ({ userModal2, setUserModal2,nav }) => {
 							className="btn btn-secondary bg-secondary"
 							style={{ textAlign: "start" }}
 							type="text"
+							value={values.name}
+							onChange={handleChange}
 							name="name"
 							required
 						/>
@@ -45,6 +86,8 @@ const UserSignUpModal = ({ userModal2, setUserModal2,nav }) => {
 							className="btn btn-secondary bg-secondary"
 							style={{ textAlign: "start" }}
 							type="text"
+							value={values.email}
+							onChange={handleChange}
 							name="email"
 							required
 						/>
@@ -53,7 +96,9 @@ const UserSignUpModal = ({ userModal2, setUserModal2,nav }) => {
 						<input
 							className="btn btn-secondary bg-secondary"
 							style={{ textAlign: "start" }}
-							type="text"
+							type="password"
+							value={values.password}
+							onChange={handleChange}
 							name="password"
 							required
 						/>
@@ -62,10 +107,13 @@ const UserSignUpModal = ({ userModal2, setUserModal2,nav }) => {
 						<input
 							className="btn btn-secondary bg-secondary"
 							style={{ textAlign: "start" }}
-							type="text"
-							name="password"
+							type="password"
+							defaultValue={""}
+							name="password2"
 							required
 						/>
+
+						{errors && <p className="fadein" style={{marginTop:"1rem"}}>{errors}</p>}
 
 						<button className="btn btn-primary" style={{ marginTop: "2rem" }}>
 							Sign Up
@@ -73,7 +121,7 @@ const UserSignUpModal = ({ userModal2, setUserModal2,nav }) => {
 					</form>
 				</div>
 			</div>
-		)
+		);
 };
 
 export default UserSignUpModal;

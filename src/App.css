@@ -139,13 +139,21 @@ body {
 .btn-primary {
   background: linear-gradient(var(--btn-bg-to), var(--btn-bg-from));
   border: none;
-  padding: 1rem 3rem;
+  padding: 1rem 3rem!important;
+  flex-basis: 30%;
+  color: var(--text-color-primary);
+}
+.btn-secondary {
+  background: transparent;
+  border: 2px solid var(--border-color-secondary);
+  padding: 1rem 3rem!important;
   color: var(--text-color-primary);
 }
 
 .btn-Eprimary {
   background: linear-gradient(var(--btn-bg-to), var(--btn-bg-from));
   border: none;
+  flex-basis: 30%;
   color: var(--text-color-primary);
 
 }
@@ -156,12 +164,6 @@ body {
   color: var(--text-color-primary);
 }
 
-.btn-secondary {
-  background: transparent;
-  border: 2px solid var(--border-color-secondary);
-  padding: 1rem 3rem;
-  color: var(--text-color-primary);
-}
 
 button {
   cursor: pointer;
@@ -310,28 +312,29 @@ button>a {
 }
 
 .EventsContainer {
+  z-index: 1;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
-@media screen and (max-width: 359px) {
-  .EventsContainer {
-    grid-template-columns: 1fr;
-  }
-}
 
-@media screen and (min-width: 500px) {
+
+@media screen and (max-width: 1000px) {
   .EventsContainer {
     grid-template-columns: 1fr 1fr 1fr;
   }
 }
-
-@media screen and (min-width: 700px) {
+@media screen and (max-width: 750px) {
   .EventsContainer {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 }
 
+@media screen and (max-width: 500px) {
+  .EventsContainer {
+    grid-template-columns: 1fr;
+  }
+}
 .EventsContainer>* {
   margin: 10px;
   padding: 10px;
@@ -340,8 +343,8 @@ button>a {
   display: grid;
   grid-template-columns: auto;
   opacity: 0;
-  animation: fadeUP 2s forwards;
-  -webkit-animation: fadeUP 2s forwards;
+  animation: fadeUP .5s forwards;
+  -webkit-animation: fadeUP .5s forwards;
 }
 
 @keyframes fadeUP {
@@ -512,9 +515,9 @@ form>div>* {
 
 .modalBG {
   position: fixed;
-  z-index: 3;
+  z-index: 5;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.616);
+  background-color: rgba(0, 0, 0, 0.5);
   border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
@@ -522,10 +525,12 @@ form>div>* {
   -o-border-radius: 20px;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
 }
 
 .modalContainer {
-  z-index: 4;
+  z-index: 6;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -537,6 +542,10 @@ form>div>* {
   -ms-border-radius: 20px;
   -o-border-radius: 20px;
   position: relative;
+  max-width: 300px;
+  padding: 1rem;
+  gap: 20px;
+  background-color: var(--bg-element);
 }
 
 .modal2BG {
@@ -588,6 +597,7 @@ form>div>* {
   -moz-border-radius: 0 20px 0 20px;
   -ms-border-radius: 0 20px 0 20px;
   -o-border-radius: 0 20px 0 20px;
+  z-index: 11111;
 }
 
 .closingButtonX {
@@ -623,4 +633,20 @@ form>div>* {
 .modalElement>button {
   padding: 1rem 3rem;
   margin: 0 auto;
+}
+
+.modalBG > div > div:nth-child(5){
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+.modalBG > div > div:nth-child(5)>*{
+  width: 100%;
+  flex-basis: 40%;
+}
+.Events:has(.modalBG){
+  overflow-y: hidden!important;
+}
+.sort, .type{
+  outline: none;
 }
