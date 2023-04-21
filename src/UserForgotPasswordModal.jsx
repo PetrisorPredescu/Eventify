@@ -57,7 +57,7 @@ const UserForgotPasswordModal = ({ userModal3, setUserModal3, nav }) => {
 						)}
 
 						<button className="btn btn-primary" style={{ marginTop: "2rem" }} onClick={() => sendPasswordReset(values.email)}>
-							Sign In
+							Send
 						</button>
 					</form>
 				</div>

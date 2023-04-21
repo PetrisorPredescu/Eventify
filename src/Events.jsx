@@ -34,11 +34,10 @@ const Events = ({ nav }) => {
 	const [filterTypeSortingOrder, setFilterTypeSortingOrder] = useState("desc");
 
 	useEffect(() => {
-		if (!nav || !user) {
+		if (!nav) {
 			navigate("/");
 			return;
 		}
-		console.log("fetch events");
 		fetchEvents();
 	}, [filterType, filterTypeSortingOrder]);
 
@@ -52,7 +51,7 @@ const Events = ({ nav }) => {
 	}
 
 	async function fetchEvents() {
-		console.log(`fetching order ${filterTypeSortingOrder}`);
+		console.log(`Fetching events in date order ${filterTypeSortingOrder}...`);
 		const docs = await getDocs(
 			query(collection(db, "events")),
 			orderBy("date", filterTypeSortingOrder),
@@ -64,8 +63,6 @@ const Events = ({ nav }) => {
 				return loadedData;
 			}),
 		);
-		console.log("A", results);
-
 		const sortingOrder = filterTypeSortingOrder === "asc" ? 1 : -1;
 
 		results.sort((a, b) => {
@@ -80,8 +77,6 @@ const Events = ({ nav }) => {
 			return 0;
 		});
 
-
-		console.log("B", results);
 		setEvents(results);
 	}
 
@@ -169,7 +164,7 @@ const Events = ({ nav }) => {
 													? "--event2"
 													: "--event3"
 											})`,
-											animationDelay: `${index * 0.1 }s`,
+											animationDelay: `${index * 0.1}s`,
 										}}>
 										<p style={{ fontSize: "larger", fontWeight: "bold" }}>
 											{event.name}

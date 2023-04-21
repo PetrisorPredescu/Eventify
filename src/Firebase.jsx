@@ -114,17 +114,17 @@ const logout = () => {
 };
 
 const checkIfUserHasRSPVed = async (usr, evnt) => {
-	console.log("check >> ",usr, evnt);
+	// console.log("check >> ",usr, evnt);
 	const q = query(collection(db, "events"), where("uid", "==", evnt));
 	const docs = await getDocs(q);
 	if (docs.docs[0]?.data()) {
 		let data2 = docs.docs[0].data();
 		let participants = data2.participants;
 		if (participants.indexOf(usr) >= 0) {
-			console.log("check if rspved: true");
+			// console.log("check if rspved: true");
 			return true;
 		} else {
-			console.log("check if rspved: false");
+			// console.log("check if rspved: false");
 			return false;
 		}
 	}
@@ -132,6 +132,7 @@ const checkIfUserHasRSPVed = async (usr, evnt) => {
 
 
 const removeUserFromEvent = async (usr, evnt) => {
+	console.log("Removing user from the participants.");
 	const eventRef = await query(collection(db, "events"), where("uid", "==", evnt));
 	const eventDoc = await getDocs(eventRef);
 	const eventData = eventDoc.docs[0].data();
@@ -145,6 +146,7 @@ const removeUserFromEvent = async (usr, evnt) => {
 };
 
 const addUserFromEvent = async (usr, evnt) => {
+	console.log("Adding user to the participants.");
 	const eventRef = await query(collection(db, "events"), where("uid", "==", evnt));
 	const eventDoc = await getDocs(eventRef);
 	const eventData = eventDoc.docs[0].data();

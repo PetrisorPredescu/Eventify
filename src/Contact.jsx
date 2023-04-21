@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { db } from "./Firebase";
+import { db, auth } from "./Firebase";
 import {  collection, getDocs, setDoc, doc } from "firebase/firestore";
 
 const Contact = ({ nav }) => {
@@ -8,8 +8,11 @@ const Contact = ({ nav }) => {
 	const [err, setErr] = useState("")
 
 	useEffect(() => {
-		if (!nav) navigate("/");
-	}, []);
+		if (!nav) {
+			navigate("/");
+			return;
+		}
+	},[])
 
 	const handleSubmit = async(e) => {
 		e.preventDefault()
@@ -52,6 +55,7 @@ const Contact = ({ nav }) => {
 		}
 	};
 
+	if(nav)
 	return (
 		<div className="fadein">
 			<form onSubmit={handleSubmit}>
@@ -64,6 +68,7 @@ const Contact = ({ nav }) => {
 						style={{ textAlign: "start" }}
 						type="text"
 						name="name"
+						defaultValue={auth.currentUser.displayName}
 						required
 					/>
 
@@ -73,13 +78,14 @@ const Contact = ({ nav }) => {
 						style={{ textAlign: "start" }}
 						type="text"
 						name="email"
+						defaultValue={auth.currentUser.email}
 						required
 					/>
 
 					<label>Message*</label>
 					<textarea
 						className="btn btn-secondary bg-element"
-						style={{ textAlign: "start" }}
+						style={{ textAlign: "start", marginBottom:"2rem" }}
 						name="message"
 						defaultValue=""
 						rows="6"
