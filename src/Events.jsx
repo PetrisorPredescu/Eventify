@@ -11,7 +11,6 @@ import {
 	updateDoc,
 } from "firebase/firestore";
 
-import { useAuthState } from "react-firebase-hooks/auth";
 import {
 	auth,
 	db,
@@ -25,13 +24,23 @@ import {
 import EventsCheckRSPV from "./EventsCheckRSPV.jsx";
 import InfoModal from "./InfoModal.jsx";
 
+import EventsAdminAdd from "./AdminEvents/EventsAdminAdd.jsx";
+import EventsAdminEdit from "./AdminEvents/EventsAdminEdit.jsx";
+import EventsAdmin from "./AdminEvents/EventsAdmin.jsx";
+
 const Events = ({ nav }) => {
-	const [user, loading, error] = useAuthState(auth);
+	const user = auth.currentUser;
 	const [events, setEvents] = useState([]);
 	const navigate = useNavigate();
 
 	const [filterType, setFilterType] = useState("");
 	const [filterTypeSortingOrder, setFilterTypeSortingOrder] = useState("desc");
+
+	const [modalState, setModalState] = useState(false);
+	const [modalData, setModalData] = useState([]);
+
+	const [modalState2, setModalState2] = useState(false);
+	const [modalState3, setModalState3] = useState(false);
 
 	useEffect(() => {
 		if (!nav) {
@@ -39,7 +48,7 @@ const Events = ({ nav }) => {
 			return;
 		}
 		fetchEvents();
-	}, [filterType, filterTypeSortingOrder]);
+	}, [filterType, filterTypeSortingOrder, modalData,modalState2,modalState3]);
 
 	function handleFilter(event) {
 		if (event.target.className.startsWith("type")) {
@@ -63,7 +72,7 @@ const Events = ({ nav }) => {
 				return loadedData;
 			}),
 		);
-		const sortingOrder = filterTypeSortingOrder === "asc" ? 1 : -1;
+		const sortingOrder = filterTypeSortingOrder === "asc" ? -1 : 1;
 
 		results.sort((a, b) => {
 			const dateA = new Date(a.date.seconds);
@@ -84,17 +93,33 @@ const Events = ({ nav }) => {
 		setModalData(event);
 		setModalState(!modalState);
 	};
-	const [modalState, setModalState] = useState(false);
-	const [modalData, setModalData] = useState([]);
+
+	// admin use
+	const handleAdminEditEvent = (event) => {
+		setModalData(event);
+		setModalState3(!modalState);
+	};
 
 	return (
 		<div className="Events fadein">
+			<EventsAdminAdd
+				modalState={modalState2}
+				setModalState={setModalState2}
+				data={modalData}
+			/>
+			<EventsAdminEdit
+				modalState={modalState3}
+				setModalState={setModalState3}
+				data={modalData}
+			/>
 			<InfoModal
 				modalState={modalState}
 				setModalState={setModalState}
 				data={modalData}
 				user={user}
 			/>
+
+			<EventsAdmin setModalState2={setModalState2}/>
 			<p
 				className="bg-element"
 				style={{
@@ -126,8 +151,8 @@ const Events = ({ nav }) => {
 					className="sort fadein"
 					value={filterTypeSortingOrder}
 					onChange={handleFilter}>
-					<option value="desc">🔽Date</option>
-					<option value="asc">🔼Date</option>
+					<option value="asc">🔽Date</option>
+					<option value="desc">🔼Date</option>
 				</select>
 			</div>
 			<p
@@ -165,7 +190,15 @@ const Events = ({ nav }) => {
 													: "--event3"
 											})`,
 											animationDelay: `${index * 0.1}s`,
+											position: "relative",
 										}}>
+										{user.email == "admin@eventify.com" && (
+											<button
+												className="adminEditButton"
+												onClick={() => handleAdminEditEvent(event)}>
+												✏
+											</button>
+										)}
 										<p style={{ fontSize: "larger", fontWeight: "bold" }}>
 											{event.name}
 										</p>

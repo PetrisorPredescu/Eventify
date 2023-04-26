@@ -15,6 +15,7 @@ import {
 	collection,
 	query,
 	where,
+	deleteDoc,
 	getDocs,
 	addDoc,
 	doc,
@@ -130,10 +131,12 @@ const checkIfUserHasRSPVed = async (usr, evnt) => {
 	}
 };
 
-
 const removeUserFromEvent = async (usr, evnt) => {
 	console.log("Removing user from the participants.");
-	const eventRef = await query(collection(db, "events"), where("uid", "==", evnt));
+	const eventRef = await query(
+		collection(db, "events"),
+		where("uid", "==", evnt),
+	);
 	const eventDoc = await getDocs(eventRef);
 	const eventData = eventDoc.docs[0].data();
 	const docID = eventDoc.docs[0].id;
@@ -142,22 +145,92 @@ const removeUserFromEvent = async (usr, evnt) => {
 	await updateDoc(docRef, {
 		participants: updParticipants,
 	});
-	return updParticipants
+	return updParticipants;
 };
 
 const addUserFromEvent = async (usr, evnt) => {
 	console.log("Adding user to the participants.");
-	const eventRef = await query(collection(db, "events"), where("uid", "==", evnt));
+	const eventRef = await query(
+		collection(db, "events"),
+		where("uid", "==", evnt),
+	);
 	const eventDoc = await getDocs(eventRef);
 	const eventData = eventDoc.docs[0].data();
 	const docID = eventDoc.docs[0].id;
 
-	eventData.participants.push(usr)
+	eventData.participants.push(usr);
 	const eventRef2 = await doc(db, "events", docID);
 	await updateDoc(eventRef2, {
 		participants: eventData.participants,
 	});
-	return eventData.participants
+	return eventData.participants;
+};
+const adminDeleteEvent = async (eventUID) => {
+	const collectionRef = collection(db, "events");
+	const q = query(collectionRef, where("uid", "==", eventUID));
+	const docs = await getDocs(q);
+	const docRef = doc(db, "events", docs.docs[0].id);
+	try {
+		const res = await deleteDoc(docRef);
+		return "success";
+	} catch (error) {
+		return error.msg;
+	}
+};
+
+const adminAddEvent = async (eventData) => {
+	try {
+		await addDoc(collection(db, "events"), eventData);
+		return "success";
+	} catch (error) {
+		return error.msg;
+	}
+};
+
+const adminUpdateEvent = async (eventData) => {
+	const q = await query(
+		collection(db, "events"),
+		where("uid", "==", eventData.uid),
+	);
+	const docx = await getDocs(q);
+
+	const docRef = await doc(db, "events", docx.docs[0].id);
+	try {
+		await updateDoc(docRef, eventData);
+		return "success";
+	} catch (error) {
+		return error.msg;
+	}
+};
+
+const grabContactData = async () => {
+	const querySnapshot = await getDocs(query(collection(db, "messages"), orderBy("date", "desc")) );
+	const results = querySnapshot.docs.map((doc) => doc.data());
+	results.sort((a, b) => {
+		const dateA = new Date(a.date.seconds);
+		const dateB = new Date(b.date.seconds);
+		if (dateA < dateB) {
+			return 1;
+		}
+		if (dateA > dateB) {
+			return -1;
+		}
+		return 0;
+	});
+	return results;
+};
+
+const adminDeleteEmail = async (emailID) => {
+	const collectionRef = collection(db, "messages");
+	const q = query(collectionRef, where("uid", "==", emailID));
+	const docs = await getDocs(q);
+	const docRef = doc(db, "messages", docs.docs[0].id);
+	try {
+		const res = await deleteDoc(docRef);
+		return "success";
+	} catch (error) {
+		return error.msg;
+	}
 };
 
 export {
@@ -172,4 +245,9 @@ export {
 	registerWithEmailAndPassword,
 	sendPasswordReset,
 	logout,
+	adminUpdateEvent,
+	adminDeleteEvent,
+	adminAddEvent,
+	grabContactData,
+	adminDeleteEmail,
 };
