@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
+import "./Config/App.css";
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 
-import Nav from "./Nav.jsx";
-import Footer from "./Footer.jsx";
-import Home from "./Home.jsx";
-import Landing from "./Landing.jsx";
-import Events from "./Events.jsx";
-import Contact from "./Contact.jsx";
-import Profile from "./Profile.jsx";
-import Logout from "./Logout.jsx";
+import Nav from "./Navigation/Nav.jsx";
+import Footer from "./Navigation/Footer.jsx";
+import Home from "./Home/Home.jsx";
+import Landing from "./Landing/Landing.jsx";
+import Events from "./Events/Events.jsx";
+import Contact from "./Contact/Contact.jsx";
+import Profile from "./Profile/Profile.jsx";
+import Logout from "./Navigation/Logout.jsx";
 
-import { auth, db, logout } from "./Firebase";
+import { auth, db, logout } from "./Config/Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { query, collection, getDocs, where } from "firebase/firestore";
 
@@ -28,21 +28,21 @@ function App() {
 	}, [user, loading, error]);
 
 	return (
-		<div className="app">
-			<BrowserRouter>
-				<Nav nav={navState} />
+		<div className="app" >
+			<BrowserRouter key={crypto.randomUUID()}>
+				<Nav nav={navState} key={crypto.randomUUID()}/>
 
-				<Routes>
-					<Route path="/" element={<Landing nav={navState} />} />
-					<Route path="/Home" element={<Home nav={navState} />} />
-					<Route path="/Events" element={<Events nav={navState} />} />
-					<Route path="/Contact" element={<Contact nav={navState} />} />
-					<Route path="/Profile" element={<Profile nav={navState} />} />
-					<Route path="/logout" element={<Logout nav={navState} />} />
-					<Route path="*" element={<Landing nav={navState} />} />
+				<Routes key={crypto.randomUUID()}>
+					<Route path="/" element={<Landing nav={navState} key={crypto.randomUUID()}/>} />
+					<Route path="/Home" element={<Home nav={navState} key={crypto.randomUUID()}/>} />
+					<Route path="/Events" element={<Events nav={navState} key={crypto.randomUUID()}/>} />
+					<Route path="/Contact" element={<Contact nav={navState} key={crypto.randomUUID()}/>} />
+					<Route path="/Profile" element={<Profile nav={navState} key={crypto.randomUUID()}/>} />
+					<Route path="/logout" element={<Logout nav={navState} key={crypto.randomUUID()}/>} />
+					<Route path="*" element={<Landing nav={navState} />} key={crypto.randomUUID()}/>
 				</Routes>
 
-				<Footer nav={navState} setNav={setNavState} />
+				<Footer nav={navState} setNav={setNavState} key={crypto.randomUUID()}/>
 			</BrowserRouter>
 		</div>
 	);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { db, auth, grabContactData, adminDeleteEmail } from "../Firebase";
+import { db, auth, grabContactData, adminDeleteEmail } from "../Config/Firebase";
 import { collection, getDocs, setDoc, doc } from "firebase/firestore";
 
 const AdminContact = () => {
@@ -33,6 +33,7 @@ const AdminContact = () => {
 			{messages.map((msg, index) => {
 				return (
 					<div
+					key={index}
 						className="bg-element fadein"
 						style={{
 							margin: "10px 0",

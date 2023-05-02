@@ -4,7 +4,7 @@ import {
 	removeUserFromEvent,
 	addUserFromEvent,
 	adminAddEvent
-} from "../Firebase.jsx";
+} from "../Config/Firebase.jsx";
 import ReactDOM from "react-dom";
 import { Timestamp } from "firebase/firestore";
 

@@ -17,7 +17,7 @@ import {
 	checkIfUserHasRSPVed,
 	removeUserFromEvent,
 	addUserFromEvent,
-} from "../Firebase";
+} from "../Config/Firebase";
 
 const EventsAdmin = ({setModalState2}) => {
 	if (!auth.currentUser) return;
