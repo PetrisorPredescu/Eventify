@@ -24,13 +24,13 @@ Install the necessary dependencies: **npm install**
 Create a file named ".env" and paste the following env variables:
 
 ```sh
-VITE_API_KEY=
-VITE_AUTH_DOMAIN=.firebaseapp.com
-VITE_PROJECT_ID=
-VITE_STORAGE_BUCKET=
-VITE_MESSAGING_SENDER_ID=
-VITE_APP_ID=
-VITE_MEASUREMENT_ID=
+VITE_API_KEY=AIzaSyDzaNcqWDwiXw6IWpTNvOHp3boPLf-g5C8
+VITE_AUTH_DOMAIN=eventify-386a2.firebaseapp.com
+VITE_PROJECT_ID=eventify-386a2
+VITE_STORAGE_BUCKET=eventify-386a2.appspot.com
+VITE_MESSAGING_SENDER_ID=353403369462
+VITE_APP_ID=1:353403369462:web:c83c8f863f4fdea25279d7
+VITE_MEASUREMENT_ID=G-N3MDF9RPY2
 ```
 
 Start the development server: npm run dev
