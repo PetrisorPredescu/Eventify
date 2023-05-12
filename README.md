@@ -55,6 +55,14 @@ CSS: Cascading Style Sheets is a style sheet language used for describing the pr
 
 Firebase: Firebase is a set of backend cloud computing services and application development platforms provided by Google. It hosts databases, services, authentication, and integration for a variety of applications
 
+# Types of functions
+
+Types of User  | Action
+------------- | -------------
+Student  | CRUD Profile, Join/Leave Events, Enquiries, Reviews
+Admin | CRUD Students/Events/Messages, Reviews
+
+
 # Data Flow Chart
 
 ```mermaid
