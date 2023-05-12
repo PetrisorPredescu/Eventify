@@ -55,7 +55,19 @@ CSS: Cascading Style Sheets is a style sheet language used for describing the pr
 
 Firebase: Firebase is a set of backend cloud computing services and application development platforms provided by Google. It hosts databases, services, authentication, and integration for a variety of applications
 
+# Data Flow Chart
 
+```mermaid
+graph TD;
+    
+    A[Landing Page] -->B[Sign Up]
+    B[Sign Up] -->C[User Sign In/Admin Sign In]
+    C[Sign In] -->D[Navigation Bar]
+    D{Navigation Bar} -->E[Navigation Bar for Students]
+    D{Navigation Bar} -->F[Navigation Bar for Admin]
+    E[Navigation Bar for Students]  --> G[Langing Page]
+    F[Navigation Bar for Admin]  --> G[Landing Page]
+```
 
 
 
