@@ -1,4 +1,4 @@
-# Welcome to Eventify!
+# Welcome to Eventify GitHub!
 # Project: Eventify
 - Student: 10145140
 - Live: http://127.0.0.1:5173/
