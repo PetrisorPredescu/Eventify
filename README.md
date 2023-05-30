@@ -21,6 +21,8 @@ Navigate to the project directory: **cd Eventify**
 
 Install the necessary dependencies: **npm install**
 
+Type command **npm run dev** to run the dev script from package .json file
+
 Create a file named ".env" and paste the following env variables:
 
 ```sh
