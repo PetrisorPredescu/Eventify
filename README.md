@@ -1,7 +1,7 @@
 # Welcome to Eventify GitHub!
 # Project: Eventify
 - Student: 10145140
-- Live: http://127.0.0.1:5173/
+- Live: https://eventify-386a2.web.app
 
 **Testing account**
 For Admin:
